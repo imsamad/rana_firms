@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import { NotFound } from './middlewares/not_found';
 import { error_handler_mdlwr } from './middlewares/error_handler';
 
+import routers from './routers';
+
 const app = express();
 
 app.disable('x-powered-by');
@@ -14,7 +16,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.text());
 
-app.get('/api/v1', (_req, res) => {
+app.use('/api/v1', routers);
+
+app.get(['/api/v1', '/'], async (_req, res) => {
   res.json({
     message: 'Hello running!',
   });
